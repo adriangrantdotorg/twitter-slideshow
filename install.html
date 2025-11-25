@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Install Twitter Slideshow</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: #f0f2f5;
+            color: #333;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin-bottom: 40px;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .bookmarklet {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #1da1f2;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 30px;
+            font-size: 18px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: move;
+            /* Indicates draggable */
+        }
+
+        .bookmarklet:hover {
+            background: #1a91da;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .instructions {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Twitter Slideshow Bookmarklet</h1>
+    <p>Drag the button below to your browser's bookmarks toolbar to install.</p>
+
+    <a class="bookmarklet"
+        href='javascript: (function () { let config = { duration: 10000, fade: 400 }; let state = { cache: [], seen: new Set(), idx: 0, timer: null, paused: false, fetching: false, idle: null }; const els = { overlay: null, container: null, style: null }; const sel = "article[data-testid=\"tweet\"]"; async function init() { await scrape(); if (state.cache.length === 0) { alert("No tweets found. Scroll down and try again."); return } buildUI(); show(0); play(); document.addEventListener("keydown", onKey); document.addEventListener("mousemove", onMove) } function buildUI() { const id = "x-slide-ov"; if (document.getElementById(id)) document.getElementById(id).remove(); els.style = document.createElement("style"); els.style.innerHTML = `#${id}{position:fixed;top:0;left:0;width:100vw;height:100vh;background:black;z-index:2147483647;font-family:system-ui,-apple-system,sans-serif;display:flex;justify-content:center;align-items:center;cursor:none}#${id}.active{cursor:default}#${id}-c{width:600px;max-width:90vw;transition:opacity ${config.fade}ms;opacity:0;cursor:pointer}.ui-layer{opacity:0;transition:opacity 0.5s}#${id}.active .ui-layer{opacity:1}.x-btn{position:absolute;background:rgba(0,0,0,0.5);color:white;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:background 0.2s;z-index:20}.x-btn:hover{background:#7c03f6}.x-close{top:20px;right:20px;width:40px;height:40px;font-size:24px}.x-nav{top:50%;transform:translateY(-50%);width:60px;height:60px;font-size:30px}.x-prev{left:20px}.x-next{right:20px}@media(min-width:850px){.x-prev{left:calc(50% - 380px)}.x-next{right:calc(50% - 380px);left:auto}}.x-bottom{position:absolute;bottom:0;left:0;width:100%;height:80px;display:flex;justify-content:space-between;align-items:center;padding:0 30px;box-sizing:border-box;background:linear-gradient(to top,rgba(0,0,0,0.9),transparent);pointer-events:none}.x-grp{pointer-events:auto;flex:1;display:flex;align-items:center}.x-grp-l{justify-content:flex-start}.x-grp-c{justify-content:center}.x-grp-r{justify-content:flex-end}.x-ctrl-box{background:rgba(0,0,0,0.6);padding:8px 15px;border-radius:8px;color:white;font-size:14px;display:flex;align-items:center;gap:10px}.x-pause-big{font-size:24px;width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,0.2);border:2px solid white;color:white;cursor:pointer;display:flex;justify-content:center;align-items:center;pointer-events:auto;transition:all 0.2s}.x-pause-big:hover{background:#7c03f6;border-color:#7c03f6;transform:scale(1.1)}.x-cred{pointer-events:auto;color:rgba(255,255,255,0.6);font-size:12px}.x-cred a{color:white;text-decoration:none}.x-cred a:hover{text-decoration:underline}input[type=number]{width:50px;background:#333;border:1px solid #555;color:white;padding:5px;border-radius:4px}.paused-ov{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:60px;font-weight:900;color:rgba(255,255,255,0.4);border:4px solid rgba(255,255,255,0.4);padding:20px 40px;border-radius:10px;pointer-events:none;display:none;z-index:2000;text-shadow:0 2px 10px black}`; document.head.appendChild(els.style); els.overlay = document.createElement("div"); els.overlay.id = id; els.overlay.classList.add("active"); els.overlay.innerHTML = `<div class="paused-ov" id="x-p-ov">PAUSED</div><div id="${id}-c"></div><button class="x-btn x-close ui-layer" id="x-close-btn">&times;</button><button class="x-btn x-nav x-prev ui-layer" id="x-prev-btn">&#10094;</button><button class="x-btn x-nav x-next ui-layer" id="x-next-btn">&#10095;</button><div class="x-bottom ui-layer"><div class="x-grp x-grp-l"><div class="x-ctrl-box"><label>Slide Duration (in secs): <input type="number" id="x-dur-in" value="${config.duration / 1000}" min="1"></label></div></div><div class="x-grp x-grp-c"><button class="x-pause-big" id="x-pause-btn">&#10074;&#10074;</button></div><div class="x-grp x-grp-r"><div class="x-cred">Crafted by <a href="https://x.com/AdrianGrant" target="_blank">@AdrianGrant</a></div></div></div>`; document.body.appendChild(els.overlay); els.container = document.getElementById(`${id}-c`); document.getElementById("x-close-btn").onclick = cleanup; document.getElementById("x-prev-btn").onclick = (e) => { e.stopPropagation(); nav(-1) }; document.getElementById("x-next-btn").onclick = (e) => { e.stopPropagation(); nav(1) }; const pBtn = document.getElementById("x-pause-btn"); pBtn.onclick = (e) => { e.stopPropagation(); togglePause(pBtn) }; const dIn = document.getElementById("x-dur-in"); dIn.onchange = (e) => { e.stopPropagation(); let v = parseInt(e.target.value); if (v < 1) v = 1; config.duration = v * 1000; if (!state.paused) resetTimer() }; dIn.onkeydown = (e) => e.stopPropagation(); onMove() } async function scrape() { const arts = Array.from(document.querySelectorAll(sel)); for (const a of arts) { let k = a.innerText.substring(0, 30); const l = a.querySelector("a[href*=\"/status/\"]"); if (l) k = l.getAttribute("href"); if (!state.seen.has(k)) { state.seen.add(k); const c = a.cloneNode(true); c.dataset.tUrl = k; c.style.cssText = "background:black!important;width:100%!important;margin:0 auto!important;transform:none!important;position:static!important;max-width:600px!important;display:block!important"; c.querySelectorAll("a").forEach(x => x.style.pointerEvents = "none"); state.cache.push(c) } } return state.cache.length } function nav(dir) { show(state.idx + dir); if (!state.paused) resetTimer() } function show(i) { if (i >= state.cache.length) { fetchMore().then(() => { if (state.cache.length > i) show(i) }); return } if (i < 0) i = 0; state.idx = i; els.container.style.opacity = "0"; setTimeout(() => { els.container.innerHTML = ""; const c = state.cache[i]; els.container.appendChild(c); els.container.onclick = (e) => { e.stopPropagation(); const url = state.cache[state.idx].dataset.tUrl; if (url) window.open(url, "_blank"); if (!state.paused) togglePause(document.getElementById("x-pause-btn")) }; const activate = () => { const vids = els.container.querySelectorAll("video"); vids.forEach(v => { v.muted = true; v.autoplay = true; v.playsInline = true; v.loop = true; v.style.setProperty("display", "block", "important"); v.style.setProperty("visibility", "visible", "important"); v.style.setProperty("opacity", "1", "important"); const poster = v.getAttribute("poster"); if (poster) { const imgs = els.container.querySelectorAll(`img[src="${poster}"]`); imgs.forEach(img => img.style.display = "none") } v.play().catch(e => { }) }) }; activate(); setTimeout(activate, 500); els.container.style.opacity = "1"; if (state.cache.length - i < 5) fetchMore() }, config.fade) } function togglePause(btn) { state.paused = !state.paused; const ov = document.getElementById("x-p-ov"); btn.innerHTML = state.paused ? "&#9658;" : "&#10074;&#10074;"; ov.style.display = state.paused ? "block" : "none"; if (state.paused) clearInterval(state.timer); else resetTimer() } function resetTimer() { clearInterval(state.timer); state.timer = setInterval(() => nav(1), config.duration) } function play() { resetTimer() } async function fetchMore() { if (state.fetching) return; state.fetching = true; window.scrollBy(0, 800); await new Promise(r => setTimeout(r, 2000)); await scrape(); state.fetching = false } function onKey(e) { if (e.key === "ArrowRight") nav(1); if (e.key === "ArrowLeft") nav(-1); if (e.key === "Escape") cleanup(); if (e.code === "Space" || e.key === " ") { e.preventDefault(); togglePause(document.getElementById("x-pause-btn")) } } function onMove() { if (els.overlay) { els.overlay.classList.add("active"); clearTimeout(state.idle); state.idle = setTimeout(() => { els.overlay.classList.remove("active") }, 2000) } } function cleanup() { if (els.overlay) els.overlay.remove(); if (els.style) els.style.remove(); clearInterval(state.timer); clearTimeout(state.idle); document.removeEventListener("keydown", onKey); document.removeEventListener("mousemove", onMove) } init() })();'>Twitter
+        Slideshow</a>
+
+    <div class="instructions">
+        Don't see the bookmarks toolbar? Press <strong>Cmd+Shift+B</strong> (Mac) or <strong>Ctrl+Shift+B</strong>
+        (Windows) to show it.
+    </div>
+
+</body>
+
+</html>

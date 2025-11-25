@@ -4,10 +4,9 @@ A browser bookmarklet that turns your Twitter (X) timeline into an immersive, fu
 
 ## Features
 
-- **Automated Slideshow**: Automatically cycles through images and videos found on your timeline.
-- **Media Focused**: Displays high-quality images and auto-plays videos (muted) in a dark overlay.
+- **Automated Slideshow**: Automatically cycles through tweets found on your timeline.
 - **Smart Scraping**: Continuously scrapes new tweets as you browse or as the slideshow progresses.
-- **Auto-Scroll**: Automatically scrolls down to fetch more content when the slideshow reaches the end of the current list.
+- **Auto-Scroll**: Automatically scrolls down to fetch more tweets when the slideshow reaches the end of the current list.
 - **Customizable**: Adjust the slide duration (default: 10 seconds).
 - **Controls**:
   - **Pause/Play**: Toggle the slideshow.
@@ -20,12 +19,11 @@ A browser bookmarklet that turns your Twitter (X) timeline into an immersive, fu
 
 ## Installation
 
-1.  Open the `bookmarklet.js` file in this repository.
-2.  Copy the entire code (it starts with `javascript:`).
-3.  Create a new bookmark in your browser (Chrome, Firefox, Safari, etc.).
-4.  Name it "Twitter Slideshow" (or whatever you prefer).
-5.  Paste the copied code into the **URL** or **Location** field of the bookmark.
-6.  Save the bookmark.
+1.  Download or open the [`install.html`](install.html) file in your browser.
+2.  Drag the **Twitter Slideshow** button to your bookmarks toolbar.
+
+
+![How to install](install.webp)
 
 ## Usage
 
