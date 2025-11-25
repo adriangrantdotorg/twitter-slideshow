@@ -2,6 +2,8 @@
 
 A browser bookmarklet that turns your Twitter (X) timeline into an immersive, full-screen media slideshow.
 
+<video src="How Slideshow Works.mp4" autoplay loop muted playsinline width="100%"></video>
+
 ## Features
 
 - **Automated Slideshow**: Automatically cycles through tweets found on your timeline.
@@ -28,8 +30,7 @@ A browser bookmarklet that turns your Twitter (X) timeline into an immersive, fu
 ## Usage
 
 1.  Navigate to [twitter.com](https://twitter.com) or [x.com](https://x.com).
-2.  Scroll to a timeline or search result containing media.
-3.  Click the "Twitter Slideshow" bookmark you created.
+2.  Click the "Twitter Slideshow" bookmark in your bookmarks toolbar
 4.  The slideshow overlay will appear and start playing.
 5.  Enjoy!
 
