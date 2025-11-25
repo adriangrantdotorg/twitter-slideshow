@@ -2,7 +2,7 @@
 
 A browser bookmarklet that turns your Twitter (X) timeline into an immersive, full-screen media slideshow.
 
-<video src="How Slideshow Works.mp4" autoplay loop muted playsinline width="100%"></video>
+![Demo](demo.gif)
 
 ## Features
 
