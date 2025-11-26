@@ -24,8 +24,8 @@ A browser bookmarklet that turns your Twitter (X) timeline into an immersive, fu
 1.  Download or open the [`install.html`](install.html) file in your browser.
 2.  Drag the **Twitter Slideshow** button to your bookmarks toolbar.
 
+![Demo Bookmarklet](demo-bookmarklet.gif)
 
-![How to install](install.webp)
 
 ## Usage
 
